@@ -1,0 +1,17 @@
+// {{start:dependencies}}
+ext {
+    versions = [
+		springBoot			:	'1.5.10.RELEASE',
+		apacheCommons		:	'3.6',
+		sourceJava			:	'1.8',
+		targetJava			:	'1.8',
+		gradle				:	'4.5',
+    ]
+    libs = [
+    		springStarterWeb				: 	"org.springframework.boot:spring-boot-starter-web:$versions.springBoot",
+		springActuator				: 	"org.springframework.boot:spring-boot-starter-actuator:$versions.springBoot",
+		springStarterTest			: 	"org.springframework.boot:spring-boot-starter-test:$versions.springBoot",
+		apacheCommons				: 	"org.apache.commons:commons-lang3:$versions.apacheCommons",
+    ]
+}
+// {{end:dependencies}}

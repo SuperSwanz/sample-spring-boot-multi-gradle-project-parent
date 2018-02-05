@@ -1,0 +1,7 @@
+// {{start:dependencies}}
+dependencies {
+    // Project reference
+	compile	libs.springStarterWeb,
+			libs.apacheCommons
+}
+// {{end:dependencies}}

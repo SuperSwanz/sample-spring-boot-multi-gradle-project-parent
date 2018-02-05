@@ -1,0 +1,70 @@
+// {{start:build}}
+buildscript {
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:1.5.10.RELEASE"
+	}
+}
+
+// Include a gradle script that has all of our dependencies split out.
+apply from: "dependencies.gradle"
+
+allprojects {
+    // Apply the java plugin to add support for Java
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: 'maven-publish'
+
+    // Using Jitpack so I need the repo name in the group to match.
+    group = 'multi-gradle-parent'
+    version = '0.0.1-SNAPSHOT'
+
+    repositories { 
+        //mavenLocal()
+        jcenter()
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            // fail eagerly on version conflict (includes transitive dependencies)
+            // e.g. multiple different versions of the same dependency (group and name are equal)
+            //failOnVersionConflict()
+
+            // Auto force all of our explicit dependencies.
+            libs.each { k, v -> force(v) }
+            
+            // cache dynamic versions for 10 minutes
+            cacheDynamicVersionsFor 10*60, 'seconds'
+            // don't cache changing modules at all
+            cacheChangingModulesFor 0, 'seconds'
+        }
+    }
+
+    // Maven Publish Begin
+    task sourceJar(type: Jar) {
+        from sourceSets.main.allJava
+    }
+
+    // This publishes sources with our jars.
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+                artifact sourceJar {
+                    classifier "sources"
+                }
+            }
+        }
+    }
+    // Maven Publish End
+}
+
+subprojects {
+	apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.springframework.boot'
+    bootRepackage.enabled = false
+}
+// {{end:build}}

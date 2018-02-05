@@ -1,0 +1,20 @@
+// {{start:dependencies}}
+dependencies {
+    // Project reference
+    compile project(':sample-multi-gradle-project-data-model')
+	compile	libs.springStarterWeb,
+			libs.springActuator,
+			libs.apacheCommons
+}
+
+bootRepackage {
+    mainClass = 'com.sample.rest.service.Runner'
+}
+
+jar {
+	baseName = 'sample-runner'
+	version = '0.0.1-SNAPSHOT'
+}
+
+bootRepackage.enabled = true
+// {{end:dependencies}}
